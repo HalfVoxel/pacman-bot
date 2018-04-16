@@ -77,6 +77,7 @@ class PositionEstimator:
     self.map[initial_position[0], initial_position[1]] = 1.0
 
   def update(self, bot, gameState):
+    self.scaredTimer -= 1
     # If the target is directly observable, then just set that tile to have a probability of 1.0
     target_pos = gameState.getAgentPosition(self.index)
     if target_pos is not None:
@@ -118,7 +119,7 @@ class PositionEstimator:
     return np.unravel_index(self.map.argmax(), self.map.shape)
 
   def scare(self):
-    self.scaredTimer = SCARED_TIME
+    self.scaredTimer = SCARED_TIME - 1
 
   def can_be_at(self, p):
     return self.map[p[0], p[1]] > 0
